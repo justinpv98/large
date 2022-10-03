@@ -1,0 +1,91 @@
+@use "../../App.scss" as *;
+@use "../Button/Button.module.scss" as *;
+
+.logo {
+  height: 1.5625rem;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 4.6875rem;
+  background-color: var(--color-secondary-500);
+  color: var(--color-neutral-700);
+}
+
+.headerContainer {
+  max-width: 1192px;
+  width: 100%;
+  margin: 0 1.25rem;
+
+  @media (min-width: 43.75em) {
+    margin: 0 3rem;
+  }
+
+  @include mq(medium) {
+    margin: 0 3rem;
+  }
+
+  @include mq(mediumplus) {
+    margin: 0 4rem;
+  }
+}
+
+.navigationWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 4.6875rem;
+}
+
+.navigationContainer {
+  display: flex;
+  align-items: center;
+}
+
+.navigation {
+  @include mq(medium) {
+    display: block;
+  }
+}
+
+.navItem {
+  display: block;
+
+  @include mq(medium) {
+    display: inline-block;
+  }
+}
+
+.navLink {
+  display: none;
+  margin-right: 1.5625rem;
+  font-size: var(--fs-300);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  cursor: pointer;
+
+  @include mq(medium) {
+    display: inline-block;
+  }
+}
+
+.signIn {
+  composes: navLink;
+  background: none;
+  border: none;
+  color: inherit;
+  margin-right: 1rem;
+
+  @include mq(smallplus) {
+    display: block;
+  }
+}
+
+.navButton {
+  composes: primary;
+  padding: 0.5rem 1rem;
+  font-size: var(--fs-300);
+  font-weight: 500;
+}
