@@ -112,8 +112,6 @@ const likePost = asyncHandler(async (req, res) => {
       author: req.user._id,
     });
 
-    console.log(like)
-
     if (!post.author._id.equals(req.user._id)) {
       const io = req.app.get("io");
       const targetId = post.author._id;
@@ -153,7 +151,7 @@ const likePost = asyncHandler(async (req, res) => {
       }
     }
 
-    const updatedPost = await Post.findByIdAndUpdate(id, {
+    const updatedPost = await Post.findByIdAndUpdate(post._id, {
       $inc: { likeCount: 1 },
     });
 
@@ -176,6 +174,12 @@ const getPost = asyncHandler(async (req, res) => {
     throw new Error("Post not found.");
   }
 
+  let isFollowing;
+  if(req.user){
+    const following = await Follow.findOne({follower: req.user.id, following: post.author})
+    isFollowing = Boolean(following);
+  }
+
   let isLiked;
   if (req.user) {
     const likedPost = await Like.findOne({ author: req.user.id, target: post._id });
@@ -184,7 +188,7 @@ const getPost = asyncHandler(async (req, res) => {
     isLiked = false;
   }
 
-  res.status(200).json({ ...post.toJSON(), isLiked });
+  res.status(200).json({ ...post.toJSON(), isFollowing, isLiked });
 });
 
 // @desc    Get posts by author id

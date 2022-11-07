@@ -75,13 +75,13 @@ const addFollower = asyncHandler(async (req, res) => {
   io.to(userId).emit("notification", { count: unreadNotifications });
 
 
-  const subscribeToFeed = await Post.find({ author: Types.ObjectId(userId) })
+  const subscribeToFeed = await Post.find({ author: Types.ObjectId(userId) }).sort({ createdAt: -1 })
 
   if (subscribeToFeed.length !== 0) {
     const feeds = subscribeToFeed.map((post) => {
       return {
         feedOwner: req.user._id,
-        post: post._id,
+        post: post.author,
       };
     });
 
@@ -119,7 +119,7 @@ const removeFollower = asyncHandler(async (req, res) => {
     const feeds = unsubscribeToFeed.map((post) => {
       return {
         feedOwner: req.user._id,
-        post: post._id,
+        post: post.author,
       };
     });
 
